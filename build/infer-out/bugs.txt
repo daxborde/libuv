@@ -1,0 +1,1049 @@
+Found 130 issues
+
+/mnt/d/source/libuv/src/strscpy.c:14: error: DEAD_STORE
+  The value written to &i (type unsigned long) is never used.
+  12.       return 0;
+  13.   
+  14. >   d[--i] = '\0';
+  15.   
+  16.     return UV_E2BIG;
+
+/mnt/d/source/libuv/src/unix/getnameinfo.c:45: error: UNINITIALIZED_VALUE
+  The value read from salen was never initialized.
+  43.       abort();
+  44.   
+  45. >   err = getnameinfo((struct sockaddr*) &req->storage,
+  46.                       salen,
+  47.                       req->host,
+
+/mnt/d/source/libuv/src/unix/tcp.c:44: error: RESOURCE_LEAK
+  resource acquired by call to `uv__socket()` at line 37, column 9 is not released after line 44, column 5.
+  42.     err = uv__stream_open((uv_stream_t*) handle, sockfd, flags);
+  43.     if (err) {
+  44. >     uv__close(sockfd);
+  45.       return err;
+  46.     }
+
+/mnt/d/source/libuv/src/unix/random-devurandom.c:44: error: RESOURCE_LEAK
+  resource acquired by call to `uv__open_cloexec()` at line 38, column 8 is not released after line 44, column 5.
+  42.   
+  43.     if (fstat(fd, &s)) {
+  44. >     uv__close(fd);
+  45.       return UV__ERR(errno);
+  46.     }
+
+/mnt/d/source/libuv/src/unix/random-devurandom.c:49: error: RESOURCE_LEAK
+  resource acquired by call to `uv__open_cloexec()` at line 38, column 8 is not released after line 49, column 5.
+  47.   
+  48.     if (!S_ISCHR(s.st_mode)) {
+  49. >     uv__close(fd);
+  50.       return UV_EIO;
+  51.     }
+
+/mnt/d/source/libuv/src/unix/random-devurandom.c:59: error: RESOURCE_LEAK
+  resource acquired by call to `uv__open_cloexec()` at line 38, column 8 is not released after line 59, column 7.
+  57.   
+  58.       if (n == -1) {
+  59. >       uv__close(fd);
+  60.         return UV__ERR(errno);
+  61.       }
+
+/mnt/d/source/libuv/src/unix/random-devurandom.c:64: error: RESOURCE_LEAK
+  resource acquired by call to `uv__open_cloexec()` at line 38, column 8 is not released after line 64, column 7.
+  62.   
+  63.       if (n == 0) {
+  64. >       uv__close(fd);
+  65.         return UV_EIO;
+  66.       }
+
+/mnt/d/source/libuv/test/test-getters-setters.c:49: error: DEAD_STORE
+  The value written to &r (type int) is never used.
+  47.   
+  48.     pipe = malloc(uv_handle_size(UV_NAMED_PIPE));
+  49. >   r = uv_pipe_init(loop, pipe, 0);
+  50.     ASSERT(uv_handle_get_type((uv_handle_t*)pipe) == UV_NAMED_PIPE);
+  51.   
+
+/mnt/d/source/libuv/test/test-getters-setters.c:50: error: NULL_DEREFERENCE
+  pointer `pipe` last assigned on line 48 could be null and is dereferenced by call to `uv_handle_get_type()` at line 50, column 3.
+  48.     pipe = malloc(uv_handle_size(UV_NAMED_PIPE));
+  49.     r = uv_pipe_init(loop, pipe, 0);
+  50. >   ASSERT(uv_handle_get_type((uv_handle_t*)pipe) == UV_NAMED_PIPE);
+  51.   
+  52.     ASSERT(uv_handle_get_loop((uv_handle_t*)pipe) == loop);
+
+/mnt/d/source/libuv/test/test-udp-create-socket-early.c:55: error: UNINITIALIZED_VALUE
+  The value read from sockname.sin_family was never initialized.
+  53.     r = uv_udp_getsockname(&client, (struct sockaddr*) &sockname, &namelen);
+  54.     ASSERT(r == 0);
+  55. >   ASSERT(sockname.sin_family == AF_INET);
+  56.   #endif
+  57.   
+
+/mnt/d/source/libuv/test/test-loop-time.c:49: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 42 could be null and is dereferenced by call to `uv_loop_alive()` at line 49, column 3.
+  47.     ASSERT(r == 0);
+  48.   
+  49. >   ASSERT(!uv_loop_alive(loop));
+  50.     ASSERT(uv_backend_timeout(loop) == 0);
+  51.   
+
+/mnt/d/source/libuv/src/unix/random-sysctl-linux.c:87: error: UNINITIALIZED_VALUE
+  The value read from uuid[_] was never initialized.
+  85.        * and only use 14 of the 16 bytes.
+  86.        */
+  87. >     uuid[6] = uuid[14];
+  88.       uuid[8] = uuid[15];
+  89.   
+
+/mnt/d/source/libuv/test/test-tty.c:83: error: RESOURCE_LEAK
+  resource acquired by call to `open()` at line 74, column 14 is not released after line 83, column 13.
+  81.     ttyout_fd = open("/dev/tty", O_WRONLY, 0);
+  82.     if (ttyout_fd < 0) {
+  83. >     fprintf(stderr, "Cannot open /dev/tty as write-only: %s\n", strerror(errno));
+  84.       fflush(stderr);
+  85.       return TEST_SKIP;
+
+/mnt/d/source/libuv/test/test-barrier.c:62: error: UNINITIALIZED_VALUE
+  The value read from wc.worker_barrier_wait_rval was never initialized.
+  60.     uv_barrier_destroy(&wc.barrier);
+  61.   
+  62. >   ASSERT(1 == (wc.main_barrier_wait_rval ^ wc.worker_barrier_wait_rval));
+  63.   
+  64.     return 0;
+
+/mnt/d/source/libuv/test/test-semaphore.c:62: error: UNINITIALIZED_VALUE
+  The value read from wc.posted was never initialized.
+  60.     uv_sleep(100);
+  61.     uv_mutex_lock(&wc.mutex);
+  62. >   ASSERT(wc.posted == 1);
+  63.     uv_sem_wait(&wc.sem); /* should not block */
+  64.     uv_mutex_unlock(&wc.mutex); /* ergo, it should be ok to unlock after wait */
+
+/mnt/d/source/libuv/test/test-pipe-close-stdout-read-stdin.c:52: error: DEAD_STORE
+  The value written to &r (type int) is never used.
+  50.    */
+  51.   TEST_IMPL(pipe_close_stdout_read_stdin) {
+  52. >   int r = -1;
+  53.     int pid;
+  54.     int fd[2];
+
+/mnt/d/source/libuv/test/benchmark-loop-count.c:60: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 53 could be null and is dereferenced by call to `uv_run()` at line 60, column 3.
+  58.   
+  59.     ns = uv_hrtime();
+  60. >   uv_run(loop, UV_RUN_DEFAULT);
+  61.     ns = uv_hrtime() - ns;
+  62.   
+
+/mnt/d/source/libuv/test/benchmark-ping-pongs.c:64: error: NULL_DEREFERENCE
+  pointer `ab` last assigned on line 63 could be null and is dereferenced at line 64, column 5.
+  62.     else {
+  63.       ab = malloc(size + sizeof(*ab));
+  64. >     ab->uv_buf_t.len = size;
+  65.       ab->uv_buf_t.base = (char*) (ab + 1);
+  66.     }
+
+/mnt/d/source/libuv/src/unix/linux-inotify.c:58: error: NULL_DEREFERENCE
+  pointer `tmp` last assigned on line 58 could be null and is dereferenced at line 58, column 1.
+  56.   
+  57.   
+  58. > RB_GENERATE_STATIC(watcher_root, watcher_list, entry, compare_watchers)
+  59.   
+  60.   
+
+/mnt/d/source/libuv/src/unix/signal.c:59: error: NULL_DEREFERENCE
+  pointer `tmp` last assigned on line 59 could be null and is dereferenced at line 59, column 1.
+  57.   static int uv__signal_lock_pipefd[2] = { -1, -1 };
+  58.   
+  59. > RB_GENERATE_STATIC(uv__signal_tree_s,
+  60.                      uv_signal_s, tree_entry,
+  61.                      uv__signal_compare)
+
+/mnt/d/source/libuv/test/test-fork.c:71: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 65 could be null and is dereferenced by call to `uv_run()` at line 71, column 3.
+  69.     ASSERT(0 == uv_timer_init(loop, &timer_handle));
+  70.     ASSERT(0 == uv_timer_start(&timer_handle, timer_cb, 1, 0));
+  71. >   ASSERT(0 == uv_run(loop, UV_RUN_DEFAULT));
+  72.     ASSERT(1 == timer_cb_called);
+  73.   }
+
+/mnt/d/source/libuv/test/test-getsockname.c:74: error: MEMORY_LEAK
+  memory dynamically allocated by call to `malloc()` at line 73, column 26 is not reachable after line 74, column 3.
+  72.   
+  73.     req = (uv_shutdown_t*) malloc(sizeof *req);
+  74. >   r = uv_shutdown(req, handle, after_shutdown);
+  75.     ASSERT(r == 0);
+  76.   }
+
+/mnt/d/source/libuv/test/test-getsockname.c:74: error: NULL_DEREFERENCE
+  pointer `req` last assigned on line 73 could be null and is dereferenced by call to `uv_shutdown()` at line 74, column 7.
+  72.   
+  73.     req = (uv_shutdown_t*) malloc(sizeof *req);
+  74. >   r = uv_shutdown(req, handle, after_shutdown);
+  75.     ASSERT(r == 0);
+  76.   }
+
+/mnt/d/source/libuv/test/test-threadpool-cancel.c:77: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 74 could be null and is dereferenced by call to `uv_queue_work()` at line 77, column 5.
+  75.     for (i = 0; i < ARRAY_SIZE(pause_reqs); i += 1) {
+  76.       ASSERT(0 == uv_sem_init(pause_sems + i, 0));
+  77. >     ASSERT(0 == uv_queue_work(loop, pause_reqs + i, work_cb, done_cb));
+  78.     }
+  79.   }
+
+/mnt/d/source/libuv/test/test-eintr-handling.c:73: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 71 could be null and is dereferenced by call to `uv_signal_init()` at line 73, column 3.
+  71.     loop = uv_default_loop();
+  72.   
+  73. >   ASSERT(0 == uv_signal_init(loop, &signal));
+  74.     ASSERT(0 == uv_signal_start(&signal, sig_func, SIGUSR1));
+  75.   
+
+/mnt/d/source/libuv/src/inet.c:143: error: DEAD_STORE
+  The value written to &tp (type char*) is never used.
+  141.     if (best.base != -1 && (best.base + best.len) == ARRAY_SIZE(words))
+  142.       *tp++ = ':';
+  143. >   *tp++ = '\0';
+  144.     if (UV_E2BIG == uv__strscpy(dst, tmp, size))
+  145.       return UV_ENOSPC;
+
+/mnt/d/source/libuv/src/unix/tcp.c:92: error: UNINITIALIZED_VALUE
+  The value read from saddr.ss_family was never initialized.
+  90.           return UV__ERR(errno);
+  91.   
+  92. >       if ((saddr.ss_family == AF_INET6 &&
+  93.             ((struct sockaddr_in6*) &saddr)->sin6_port != 0) ||
+  94.             (saddr.ss_family == AF_INET &&
+
+/mnt/d/source/libuv/src/unix/tcp.c:94: error: UNINITIALIZED_VALUE
+  The value read from saddr.ss_family was never initialized.
+  92.         if ((saddr.ss_family == AF_INET6 &&
+  93.             ((struct sockaddr_in6*) &saddr)->sin6_port != 0) ||
+  94. >           (saddr.ss_family == AF_INET &&
+  95.             ((struct sockaddr_in*) &saddr)->sin_port != 0)) {
+  96.           /* Handle is already bound to a port. */
+
+/mnt/d/source/libuv/test/test-barrier.c:83: error: UNINITIALIZED_VALUE
+  The value read from wc.worker_barrier_wait_rval was never initialized.
+  81.     uv_barrier_destroy(&wc.barrier);
+  82.   
+  83. >   ASSERT(1 == (wc.main_barrier_wait_rval ^ wc.worker_barrier_wait_rval));
+  84.   
+  85.     return 0;
+
+/mnt/d/source/libuv/test/test-fs-copyfile.c:87: error: NULL_DEREFERENCE
+  pointer `null` is dereferenced by call to `uv_fs_write()` at line 87, column 9.
+  85.     /* Inefficient but simple. */
+  86.     for (i = 0; i < size; i++) {
+  87. >     r = uv_fs_write(NULL, &req, file, &buf, 1, i, NULL);
+  88.       uv_fs_req_cleanup(&req);
+  89.       ASSERT(r >= 0);
+
+/mnt/d/source/libuv/test/echo-server.c:86: error: NULL_DEREFERENCE
+  pointer `sreq` last assigned on line 85 could be null and is dereferenced by call to `uv_shutdown()` at line 86, column 5.
+  84.       free(buf->base);
+  85.       sreq = malloc(sizeof* sreq);
+  86. >     ASSERT(0 == uv_shutdown(sreq, handle, after_shutdown));
+  87.       return;
+  88.     }
+
+/mnt/d/source/libuv/test/benchmark-loop-count.c:85: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 77 could be null and is dereferenced by call to `uv_run()` at line 85, column 3.
+  83.     uv_timer_start(&timer_handle, timer_cb, 5000, 0);
+  84.   
+  85. >   uv_run(loop, UV_RUN_DEFAULT);
+  86.   
+  87.     fprintf(stderr, "loop_count: %lu ticks (%.0f ticks/s)\n", ticks, ticks / 5.0);
+
+/mnt/d/source/libuv/test/test-multiple-listen.c:87: error: MEMORY_LEAK
+  memory dynamically allocated by call to `malloc()` at line 78, column 31 is not reachable after line 87, column 3.
+  85.     ASSERT(r == 0);
+  86.   
+  87. >   r = uv_tcp_connect(connect_req,
+  88.                        &client,
+  89.                        (const struct sockaddr*) &addr,
+
+/mnt/d/source/libuv/test/test-udp-create-socket-early.c:102: error: UNINITIALIZED_VALUE
+  The value read from sockname.sin6_family was never initialized.
+  100.       r = uv_udp_getsockname(&client, (struct sockaddr*) &sockname, &namelen);
+  101.       ASSERT(r == 0);
+  102. >     ASSERT(sockname.sin6_family == AF_INET6);
+  103.     }
+  104.   #endif
+
+/mnt/d/source/libuv/test/test-delayed-accept.c:93: error: MEMORY_LEAK
+  memory dynamically allocated by call to `malloc()` at line 84, column 31 is not reachable after line 93, column 3.
+  91.     timer_handle->data = tcp;
+  92.   
+  93. >   r = uv_timer_start(timer_handle, do_accept, 1000, 0);
+  94.     ASSERT(r == 0);
+  95.   
+
+/mnt/d/source/libuv/test/runner-unix.c:112: error: NULL_DEREFERENCE
+  pointer `stdout_file` last assigned on line 111 could be null and is dereferenced by call to `fileno()` at line 112, column 15.
+  110.   
+  111.     stdout_file = tmpfile();
+  112. >   stdout_fd = fileno(stdout_file);
+  113.     if (!stdout_file) {
+  114.       perror("tmpfile");
+
+/mnt/d/source/libuv/test/runner-unix.c:120: error: RESOURCE_LEAK
+  resource of type `_IO_FILE` acquired by call to `tmpfile()` at line 111, column 17 is not released after line 120, column 7.
+  118.     if (is_helper) {
+  119.       if (pipe(pipefd)) {
+  120. >       perror("pipe");
+  121.         return -1;
+  122.       }
+
+/mnt/d/source/libuv/test/runner-unix.c:126: error: RESOURCE_LEAK
+  resource of type `_IO_FILE` acquired by call to `tmpfile()` at line 111, column 17 is not released after line 126, column 7.
+  124.       snprintf(fdstr, sizeof(fdstr), "%d", pipefd[1]);
+  125.       if (setenv("UV_TEST_RUNNER_FD", fdstr, /* overwrite */ 1)) {
+  126. >       perror("setenv");
+  127.         return -1;
+  128.       }
+
+/mnt/d/source/libuv/test/runner-unix.c:137: error: RESOURCE_LEAK
+  resource of type `_IO_FILE` acquired by call to `tmpfile()` at line 111, column 17 is not released after line 137, column 5.
+  135.   
+  136.     if (pid < 0) {
+  137. >     perror("fork");
+  138.       return -1;
+  139.     }
+
+/mnt/d/source/libuv/test/runner-unix.c:144: error: UNINITIALIZED_VALUE
+  The value read from pipefd[_] was never initialized.
+  142.       /* child */
+  143.       if (is_helper)
+  144. >       closefd(pipefd[0]);
+  145.       dup2(stdout_fd, STDOUT_FILENO);
+  146.       dup2(stdout_fd, STDERR_FILENO);
+
+/mnt/d/source/libuv/test/runner-unix.c:160: error: UNINITIALIZED_VALUE
+  The value read from pipefd[_] was never initialized.
+  158.       return 0;
+  159.   
+  160. >   closefd(pipefd[1]);
+  161.     unsetenv("UV_TEST_RUNNER_FD");
+  162.   
+
+/mnt/d/source/libuv/test/runner-unix.c:164: error: UNINITIALIZED_VALUE
+  The value read from pipefd[_] was never initialized.
+  162.   
+  163.     do
+  164. >     rc = read(pipefd[0], &n, 1);
+  165.     while (rc == -1 && errno == EINTR);
+  166.   
+
+/mnt/d/source/libuv/test/runner-unix.c:167: error: UNINITIALIZED_VALUE
+  The value read from pipefd[_] was never initialized.
+  165.     while (rc == -1 && errno == EINTR);
+  166.   
+  167. >   closefd(pipefd[0]);
+  168.   
+  169.     if (rc == -1) {
+
+/mnt/d/source/libuv/test/test-ipc-send-recv.c:125: error: UNINITIALIZED_VALUE
+  The value read from r was never initialized.
+  123.         else
+  124.           abort();
+  125. >       ASSERT(r == 0);
+  126.   
+  127.         r = uv_accept(handle, &recv->stream);
+
+/mnt/d/source/libuv/test/test-barrier.c:103: error: UNINITIALIZED_VALUE
+  The value read from wc.worker_barrier_wait_rval was never initialized.
+  101.     uv_barrier_destroy(&wc.barrier);
+  102.   
+  103. >   ASSERT(1 == (wc.main_barrier_wait_rval ^ wc.worker_barrier_wait_rval));
+  104.   
+  105.     return 0;
+
+/mnt/d/source/libuv/test/test-tcp-create-socket-early.c:115: error: UNINITIALIZED_VALUE
+  The value read from sockname.sin_family was never initialized.
+  113.     r = uv_tcp_getsockname(&client, (struct sockaddr*) &sockname, &namelen);
+  114.     ASSERT(r == 0);
+  115. >   ASSERT(sockname.sin_family == AF_INET);
+  116.   #endif
+  117.   
+
+/mnt/d/source/libuv/test/test-fs-event.c:111: error: NULL_DEREFERENCE
+  pointer `null` is dereferenced by call to `uv_fs_write()` at line 111, column 7.
+  109.   
+  110.     buf = uv_buf_init("foo", 4);
+  111. >   r = uv_fs_write(NULL, &req, file, &buf, 1, -1, NULL);
+  112.     ASSERT(r >= 0);
+  113.     uv_fs_req_cleanup(&req);
+
+/mnt/d/source/libuv/test/blackhole-server.c:117: error: DEAD_STORE
+  The value written to &r (type int) is never used.
+  115.     ASSERT(r == 0);
+  116.   
+  117. >   r = uv_run(loop, UV_RUN_DEFAULT);
+  118.     ASSERT(0 && "Blackhole server dropped out of event loop.");
+  119.   
+
+/mnt/d/source/libuv/test/test-pipe-sendmsg.c:145: error: UNINITIALIZED_VALUE
+  The value read from send_fds[_] was never initialized.
+  143.       int* pi = pv;
+  144.       for (i = 0; i < ARRAY_SIZE(send_fds); i++)
+  145. >       pi[i] = send_fds[i];
+  146.     }
+  147.   
+
+/mnt/d/source/libuv/test/benchmark-multi-accept.c:134: error: MEMORY_LEAK
+  memory dynamically allocated by call to `calloc()` at line 116, column 8 is not reachable after line 134, column 9.
+  132.                           ipc_write_cb));
+  133.   
+  134. >   if (--sc->num_connects == 0)
+  135.       uv_close((uv_handle_t*) ipc_pipe, NULL);
+  136.   }
+
+/mnt/d/source/libuv/test/benchmark-ping-udp.c:119: error: NULL_DEREFERENCE
+  pointer `pinger` last assigned on line 115 could be null and is dereferenced at line 119, column 3.
+  117.   
+  118.     ASSERT(0 == uv_ip4_addr("127.0.0.1", TEST_PORT, &pinger->server_addr));
+  119. >   pinger->state = 0;
+  120.     pinger->pongs = 0;
+  121.   
+
+/mnt/d/source/libuv/src/unix/tty.c:142: error: DEAD_STORE
+  The value written to &newfd (type int) is never used.
+  140.   
+  141.     flags = 0;
+  142. >   newfd = -1;
+  143.   
+  144.     /* Save the fd flags in case we need to restore them due to an error. */
+
+/mnt/d/source/libuv/test/dns-server.c:141: error: NULL_DEREFERENCE
+  pointer `wr` last assigned on line 140 could be null and is dereferenced at line 141, column 3.
+  139.   
+  140.     wr = (write_req_t*) malloc(sizeof *wr);
+  141. >   wr->buf.base = (char*)malloc(WRITE_BUF_LEN);
+  142.     wr->buf.len = 0;
+  143.   
+
+/mnt/d/source/libuv/test/benchmark-ping-udp.c:139: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 138 could be null and is dereferenced by call to `uv_now()` at line 139, column 16.
+  137.   
+  138.     loop = uv_default_loop();
+  139. >   start_time = uv_now(loop);
+  140.   
+  141.     for (i = 0; i < pingers; ++i) {
+
+/mnt/d/source/libuv/test/test-tcp-create-socket-early.c:162: error: UNINITIALIZED_VALUE
+  The value read from sockname.sin6_family was never initialized.
+  160.       r = uv_tcp_getsockname(&client, (struct sockaddr*) &sockname, &namelen);
+  161.       ASSERT(r == 0);
+  162. >     ASSERT(sockname.sin6_family == AF_INET6);
+  163.     }
+  164.   #endif
+
+/mnt/d/source/libuv/test/test-fs-poll.c:161: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 154 could be null and is dereferenced by call to `uv_run()` at line 161, column 3.
+  159.     ASSERT(0 == uv_fs_poll_init(loop, &poll_handle));
+  160.     ASSERT(0 == uv_fs_poll_start(&poll_handle, poll_cb, FIXTURE, 100));
+  161. >   ASSERT(0 == uv_run(loop, UV_RUN_DEFAULT));
+  162.   
+  163.     ASSERT(poll_cb_called == 5);
+
+/mnt/d/source/libuv/test/benchmark-ping-pongs.c:188: error: NULL_DEREFERENCE
+  pointer `pinger` last assigned on line 187 could be null and is dereferenced at line 188, column 3.
+  186.     ASSERT(0 == uv_ip4_addr("127.0.0.1", TEST_PORT, &server_addr));
+  187.     pinger = malloc(sizeof(*pinger));
+  188. >   pinger->state = 0;
+  189.     pinger->pongs = 0;
+  190.   
+
+/mnt/d/source/libuv/test/test-signal-multiple-loops.c:232: error: UNINITIALIZED_VALUE
+  The value read from action was never initialized.
+  230.       }
+  231.   
+  232. >     r = uv_thread_create(&signal_handling_threads[i],
+  233.                            signal_handling_worker,
+  234.                            (void*) (uintptr_t) action);
+
+/mnt/d/source/libuv/test/echo-server.c:224: error: MEMORY_LEAK
+  memory dynamically allocated to `req` by call to `send_alloc()` at line 221, column 24 is not reachable after line 224, column 3.
+  222.     ASSERT(req != NULL);
+  223.     sndbuf = uv_buf_init(rcvbuf->base, nread);
+  224. >   ASSERT(0 <= uv_udp_send(req, handle, &sndbuf, 1, addr, on_send));
+  225.   }
+  226.   
+
+/mnt/d/source/libuv/test/test-poll.c:258: error: UNINITIALIZED_VALUE
+  The value read from r was never initialized.
+  256.           }
+  257.   
+  258. >         if (r == 0) {
+  259.             /* Got FIN. */
+  260.             context->got_fin = 1;
+
+/mnt/d/source/libuv/test/benchmark-ping-pongs.c:212: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 210 could be null and is dereferenced by call to `uv_now()` at line 212, column 16.
+  210.     loop = uv_default_loop();
+  211.   
+  212. >   start_time = uv_now(loop);
+  213.   
+  214.     pinger_new();
+
+/mnt/d/source/libuv/test/test-ping-pong.c:247: error: MEMORY_LEAK
+  memory dynamically allocated by call to `malloc()` at line 234, column 23 is not reachable after line 247, column 3.
+  245.     /* We are never doing multiple reads/connects at a time anyway, so these
+  246.      * handles can be pre-initialized. */
+  247. >   uv_pipe_connect(&pinger->connect_req, &pinger->stream.pipe, TEST_PIPENAME,
+  248.         pinger_on_connect);
+  249.   
+
+/mnt/d/source/libuv/test/dns-server.c:248: error: MEMORY_LEAK
+  memory dynamically allocated by call to `malloc()` at line 247, column 11 is not reachable after line 248, column 5.
+  246.   
+  247.       req = malloc(sizeof *req);
+  248. >     uv_shutdown(req, handle, after_shutdown);
+  249.   
+  250.       return;
+
+/mnt/d/source/libuv/test/dns-server.c:248: error: NULL_DEREFERENCE
+  pointer `req` last assigned on line 247 could be null and is dereferenced by call to `uv_shutdown()` at line 248, column 5.
+  246.   
+  247.       req = malloc(sizeof *req);
+  248. >     uv_shutdown(req, handle, after_shutdown);
+  249.   
+  250.       return;
+
+/mnt/d/source/libuv/test/benchmark-pump.c:259: error: MEMORY_LEAK
+  memory dynamically allocated by call to `req_alloc()` at line 258, column 29 is not reachable after line 259, column 7.
+  257.   
+  258.         req = (uv_connect_t*) req_alloc();
+  259. >       r = uv_tcp_connect(req,
+  260.                            tcp,
+  261.                            (const struct sockaddr*) &connect_addr,
+
+/mnt/d/source/libuv/test/benchmark-pump.c:271: error: MEMORY_LEAK
+  memory dynamically allocated by call to `req_alloc()` at line 270, column 29 is not reachable after line 271, column 7.
+  269.   
+  270.         req = (uv_connect_t*) req_alloc();
+  271. >       uv_pipe_connect(req, pipe, TEST_PIPENAME, connect_cb);
+  272.       }
+  273.     }
+
+/mnt/d/source/libuv/test/benchmark-pump.c:297: error: MEMORY_LEAK
+  memory dynamically allocated by call to `malloc()` at line 289, column 28 is not reachable after line 297, column 3.
+  295.     ASSERT(r == 0);
+  296.   
+  297. >   r = uv_read_start(stream, buf_alloc, read_cb);
+  298.     ASSERT(r == 0);
+  299.   
+
+/mnt/d/source/libuv/test/benchmark-multi-accept.c:309: error: MEMORY_LEAK
+  memory dynamically allocated by call to `malloc()` at line 297, column 13 is not reachable after line 309, column 3.
+  307.     ASSERT(0 == uv_accept(server_handle, (uv_stream_t*) storage));
+  308.     ASSERT(0 == uv_read_start((uv_stream_t*) storage, sv_alloc_cb, sv_read_cb));
+  309. >   ctx->num_connects++;
+  310.   }
+  311.   
+
+/mnt/d/source/libuv/test/test-ipc-send-recv.c:334: error: UNINITIALIZED_VALUE
+  The value read from r was never initialized.
+  332.       else
+  333.         abort();
+  334. >     ASSERT(r == 0);
+  335.   
+  336.       r = uv_accept(handle, &recv->stream);
+
+/mnt/d/source/libuv/src/unix/tty.c:351: error: UNINITIALIZED_VALUE
+  The value read from sa.sa_family was never initialized.
+  349.   
+  350.     if (type == SOCK_DGRAM)
+  351. >     if (sa.sa_family == AF_INET || sa.sa_family == AF_INET6)
+  352.         return UV_UDP;
+  353.   
+
+/mnt/d/source/libuv/src/unix/tty.c:351: error: UNINITIALIZED_VALUE
+  The value read from sa.sa_family was never initialized.
+  349.   
+  350.     if (type == SOCK_DGRAM)
+  351. >     if (sa.sa_family == AF_INET || sa.sa_family == AF_INET6)
+  352.         return UV_UDP;
+  353.   
+
+/mnt/d/source/libuv/src/unix/tty.c:364: error: UNINITIALIZED_VALUE
+  The value read from sa.sa_family was never initialized.
+  362.   #endif /* defined(_AIX) || defined(__DragonFly__) */
+  363.   
+  364. >     if (sa.sa_family == AF_INET || sa.sa_family == AF_INET6)
+  365.         return UV_TCP;
+  366.       if (sa.sa_family == AF_UNIX)
+
+/mnt/d/source/libuv/src/unix/tty.c:364: error: UNINITIALIZED_VALUE
+  The value read from sa.sa_family was never initialized.
+  362.   #endif /* defined(_AIX) || defined(__DragonFly__) */
+  363.   
+  364. >     if (sa.sa_family == AF_INET || sa.sa_family == AF_INET6)
+  365.         return UV_TCP;
+  366.       if (sa.sa_family == AF_UNIX)
+
+/mnt/d/source/libuv/src/unix/tty.c:366: error: UNINITIALIZED_VALUE
+  The value read from sa.sa_family was never initialized.
+  364.       if (sa.sa_family == AF_INET || sa.sa_family == AF_INET6)
+  365.         return UV_TCP;
+  366. >     if (sa.sa_family == AF_UNIX)
+  367.         return UV_NAMED_PIPE;
+  368.     }
+
+/mnt/d/source/libuv/test/benchmark-pump.c:361: error: NULL_DEREFERENCE
+  pointer `ab` last assigned on line 360 could be null and is dereferenced at line 361, column 5.
+  359.     else {
+  360.       ab = malloc(size + sizeof(*ab));
+  361. >     ab->uv_buf_t.len = size;
+  362.       ab->uv_buf_t.base = (char*) (ab + 1);
+  363.     }
+
+/mnt/d/source/libuv/test/test-fork.c:377: error: NULL_DEREFERENCE
+  pointer `null` is dereferenced by call to `uv_fs_write()` at line 377, column 7.
+  375.   
+  376.     buf = uv_buf_init("foo", 4);
+  377. >   r = uv_fs_write(NULL, &req, file, &buf, 1, -1, NULL);
+  378.     ASSERT(r >= 0);
+  379.     uv_fs_req_cleanup(&req);
+
+/mnt/d/source/libuv/test/test-tcp-open.c:381: error: RESOURCE_LEAK
+  resource acquired by call to `create_tcp_socket()` at line 376, column 10 is not released after line 381, column 3.
+  379.     ASSERT(r == 0);
+  380.   
+  381. >   r = uv_tcp_open(&client, sock);
+  382.     ASSERT(r == 0);
+  383.   
+
+/mnt/d/source/libuv/test/benchmark-pump.c:433: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 426 could be null and is dereferenced by call to `uv_run()` at line 433, column 3.
+  431.     maybe_connect_some();
+  432.   
+  433. >   uv_run(loop, UV_RUN_DEFAULT);
+  434.   
+  435.     MAKE_VALGRIND_HAPPY();
+
+/mnt/d/source/libuv/src/unix/core.c:446: error: RESOURCE_LEAK
+  resource acquired by call to `socket()` at line 437, column 12 is not released after line 446, column 5.
+  444.   
+  445.     if (err) {
+  446. >     uv__close(sockfd);
+  447.       return err;
+  448.     }
+
+/mnt/d/source/libuv/test/test-fs-event.c:441: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 431 could be null and is dereferenced by call to `uv_fs_event_init()` at line 441, column 7.
+  439.     create_dir("watch_dir");
+  440.   
+  441. >   r = uv_fs_event_init(loop, &fs_event);
+  442.     ASSERT(r == 0);
+  443.     r = uv_fs_event_start(&fs_event, fs_event_cb_dir_multi_file, "watch_dir", 0);
+
+/mnt/d/source/libuv/test/benchmark-pump.c:449: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 444 could be null and is dereferenced by call to `uv_run()` at line 449, column 3.
+  447.     maybe_connect_some();
+  448.   
+  449. >   uv_run(loop, UV_RUN_DEFAULT);
+  450.   
+  451.     MAKE_VALGRIND_HAPPY();
+
+/mnt/d/source/libuv/src/uv-common.c:483: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 481 could be null and is dereferenced at line 483, column 3.
+  481.       loop = uv_default_loop();
+  482.   
+  483. >   QUEUE_FOREACH(q, &loop->handle_queue) {
+  484.       h = QUEUE_DATA(q, uv_handle_t, handle_queue);
+  485.   
+
+/mnt/d/source/libuv/src/unix/linux-core.c:525: error: RESOURCE_LEAK
+  resource acquired by call to `open()` at line 515, column 10 is not released after line 525, column 3.
+  523.     while (n == -1 && errno == EINTR);
+  524.   
+  525. >   uv__close(fd);
+  526.     if (n == -1)
+  527.       return UV__ERR(errno);
+
+/mnt/d/source/libuv/test/test-fs.c:541: error: NULL_DEREFERENCE
+  pointer `stat_req.ptr` last assigned on line 539 could be null and is dereferenced at line 541, column 3.
+  539.     r = uv_fs_stat(NULL, &stat_req, req->path, NULL);
+  540.     ASSERT(r == 0);
+  541. >   ASSERT(((uv_stat_t*)stat_req.ptr)->st_mode & S_IFDIR);
+  542.     uv_fs_req_cleanup(&stat_req);
+  543.   }
+
+/mnt/d/source/libuv/test/test-fork.c:560: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 554 could be null and is dereferenced by call to `uv_fs_event_init()` at line 560, column 7.
+  558.     create_file("watch_file");
+  559.   
+  560. >   r = uv_fs_event_init(loop, &fs_event);
+  561.     ASSERT(r == 0);
+  562.     r = uv_fs_event_start(&fs_event,
+
+/mnt/d/source/libuv/src/unix/udp.c:601: error: UNINITIALIZED_VALUE
+  The value read from addrlen was never initialized.
+  599.     }
+  600.   
+  601. >   return uv__udp_bind(handle, &taddr.addr, addrlen, flags);
+  602.   }
+  603.   
+
+/mnt/d/source/libuv/test/test-fs-event.c:596: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 585 could be null and is dereferenced by call to `uv_fs_event_init()` at line 596, column 7.
+  594.     create_file("watch_dir/file2");
+  595.   
+  596. >   r = uv_fs_event_init(loop, &fs_event);
+  597.     ASSERT(r == 0);
+  598.     r = uv_fs_event_start(&fs_event, fs_event_cb_file, "watch_dir/file2", 0);
+
+/mnt/d/source/libuv/test/test-fs-event.c:652: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 633 could be null and is dereferenced by call to `uv_fs_event_init()` at line 652, column 7.
+  650.   #endif
+  651.   
+  652. >   r = uv_fs_event_init(loop, &fs_event);
+  653.     ASSERT(r == 0);
+  654.     r = uv_fs_event_start(&fs_event, fs_event_fail, "watch_dir/file.jsx", 0);
+
+/mnt/d/source/libuv/test/test-fs-event.c:718: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 705 could be null and is dereferenced by call to `uv_fs_event_init()` at line 718, column 7.
+  716.   #endif
+  717.   
+  718. >   r = uv_fs_event_init(loop, &fs_event);
+  719.     ASSERT(r == 0);
+  720.     r = uv_fs_event_start(&fs_event,
+
+/mnt/d/source/libuv/test/test-fs-event.c:791: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 782 could be null and is dereferenced by call to `uv_fs_event_init()` at line 791, column 7.
+  789.     create_file("watch_dir/file1");
+  790.   
+  791. >   r = uv_fs_event_init(loop, &fs_event);
+  792.     ASSERT(r == 0);
+  793.     r = uv_fs_event_start(&fs_event,
+
+/mnt/d/source/libuv/test/test-fs-event.c:829: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 820 could be null and is dereferenced by call to `uv_fs_event_init()` at line 829, column 7.
+  827.     create_file("watch_dir/file1");
+  828.   
+  829. >   r = uv_fs_event_init(loop, &fs_event);
+  830.     ASSERT(r == 0);
+  831.     r = uv_fs_event_start(&fs_event,
+
+/mnt/d/source/libuv/test/test-fs-event.c:882: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 874 could be null and is dereferenced by call to `uv_run()` at line 882, column 3.
+  880.     ASSERT(r == 0);
+  881.   
+  882. >   uv_run(loop, UV_RUN_DEFAULT);
+  883.   
+  884.     ASSERT(close_cb_called == 2);
+
+/mnt/d/source/libuv/test/test-fs-event.c:903: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 898 could be null and is dereferenced by call to `uv_fs_event_init()` at line 903, column 7.
+  901.     create_file("watch_dir/file");
+  902.   
+  903. >   r = uv_fs_event_init(loop, &fs_event);
+  904.     ASSERT(r == 0);
+  905.     r = uv_fs_event_start(&fs_event, fs_event_fail, "watch_dir", 0);
+
+/mnt/d/source/libuv/test/test-fs-event.c:939: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 934 could be null and is dereferenced by call to `uv_fs_event_init()` at line 939, column 7.
+  937.     create_dir("watch_dir");
+  938.   
+  939. >   r = uv_fs_event_init(loop, &fs_event);
+  940.     ASSERT(r == 0);
+  941.     r = uv_fs_event_start(&fs_event, fs_event_cb_close, "watch_dir", 0);
+
+/mnt/d/source/libuv/test/test-fs.c:958: error: NULL_DEREFERENCE
+  pointer `null` is dereferenced by call to `uv_fs_write()` at line 958, column 7.
+  956.   
+  957.     iov = uv_buf_init(test_buf, sizeof(test_buf));
+  958. >   r = uv_fs_write(NULL, &write_req, open_req1.result, &iov, 1, -1, NULL);
+  959.     ASSERT(r >= 0);
+  960.     ASSERT(write_req.result >= 0);
+
+/mnt/d/source/libuv/src/unix/stream.c:985: error: UNINITIALIZED_VALUE
+  The value read from ss.ss_family was never initialized.
+  983.   #endif
+  984.       switch (ss.ss_family) {
+  985. >       case AF_UNIX:
+  986.           return UV_NAMED_PIPE;
+  987.         case AF_INET:
+
+/mnt/d/source/libuv/src/unix/stream.c:987: error: UNINITIALIZED_VALUE
+  The value read from ss.ss_family was never initialized.
+  985.         case AF_UNIX:
+  986.           return UV_NAMED_PIPE;
+  987. >       case AF_INET:
+  988.         case AF_INET6:
+  989.           return UV_TCP;
+
+/mnt/d/source/libuv/src/unix/stream.c:988: error: UNINITIALIZED_VALUE
+  The value read from ss.ss_family was never initialized.
+  986.           return UV_NAMED_PIPE;
+  987.         case AF_INET:
+  988. >       case AF_INET6:
+  989.           return UV_TCP;
+  990.         }
+
+/mnt/d/source/libuv/src/unix/stream.c:994: error: UNINITIALIZED_VALUE
+  The value read from ss.ss_family was never initialized.
+  992.   
+  993.     if (type == SOCK_DGRAM &&
+  994. >       (ss.ss_family == AF_INET || ss.ss_family == AF_INET6))
+  995.       return UV_UDP;
+  996.   
+
+/mnt/d/source/libuv/src/unix/stream.c:994: error: UNINITIALIZED_VALUE
+  The value read from ss.ss_family was never initialized.
+  992.   
+  993.     if (type == SOCK_DGRAM &&
+  994. >       (ss.ss_family == AF_INET || ss.ss_family == AF_INET6))
+  995.       return UV_UDP;
+  996.   
+
+/mnt/d/source/libuv/test/test-fs-event.c:979: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 975 could be null and is dereferenced by call to `uv_fs_event_init()` at line 979, column 7.
+  977.     create_dir("watch_dir");
+  978.   
+  979. >   r = uv_fs_event_init(loop, &fs_event1);
+  980.     ASSERT(r == 0);
+  981.     r = uv_fs_event_start(&fs_event1, fs_event_cb_dir, "watch_dir", 0);
+
+/mnt/d/source/libuv/src/unix/linux-core.c:1016: error: RESOURCE_LEAK
+  resource acquired by call to `uv__open_cloexec()` at line 991, column 8 is not released after line 1016, column 7.
+  1014.   out:
+  1015.   
+  1016. >   if (uv__close_nocheckstdio(fd))
+  1017.       abort();
+  1018.   
+
+/mnt/d/source/libuv/test/test-fs-event.c:1023: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 1005 could be null and is dereferenced by call to `uv_fs_event_init()` at line 1023, column 9.
+  1021.   
+  1022.     for (i = 0; i < ARRAY_SIZE(watch_dir); i++) {
+  1023. >     r = uv_fs_event_init(loop, &fs_event);
+  1024.       ASSERT(r == 0);
+  1025.       len = sizeof buf;
+
+/mnt/d/source/libuv/test/test-fs.c:1047: error: NULL_DEREFERENCE
+  pointer `null` is dereferenced by call to `uv_fs_write()` at line 1047, column 7.
+  1045.   
+  1046.     iov = uv_buf_init(NULL, 0);
+  1047. >   r = uv_fs_write(NULL, &write_req, open_req1.result, &iov, 1, -1, NULL);
+  1048.     ASSERT(r == 0);
+  1049.     ASSERT(write_req.result == 0);
+
+/mnt/d/source/libuv/src/unix/linux-core.c:1077: error: RESOURCE_LEAK
+  resource acquired by call to `uv__open_cloexec()` at line 1065, column 8 is not released after line 1077, column 7.
+  1075.     }
+  1076.   
+  1077. >   if (uv__close_nocheckstdio(fd))
+  1078.       abort();
+  1079.   
+
+/mnt/d/source/libuv/src/unix/core.c:1215: error: UNINITIALIZED_VALUE
+  The value read from pw.pw_gid was never initialized.
+  1213.     /* Copy the uid and gid */
+  1214.     pwd->uid = pw.pw_uid;
+  1215. >   pwd->gid = pw.pw_gid;
+  1216.   
+  1217.     uv__free(buf);
+
+/mnt/d/source/libuv/src/unix/core.c:1214: error: UNINITIALIZED_VALUE
+  The value read from pw.pw_uid was never initialized.
+  1212.   
+  1213.     /* Copy the uid and gid */
+  1214. >   pwd->uid = pw.pw_uid;
+  1215.     pwd->gid = pw.pw_gid;
+  1216.   
+
+/mnt/d/source/libuv/src/unix/core.c:1181: error: UNINITIALIZED_VALUE
+  The value read from r was never initialized.
+  1179.     }
+  1180.   
+  1181. >   if (r != 0) {
+  1182.       uv__free(buf);
+  1183.       return -r;
+
+/mnt/d/source/libuv/src/unix/core.c:1183: error: UNINITIALIZED_VALUE
+  The value read from r was never initialized.
+  1181.     if (r != 0) {
+  1182.       uv__free(buf);
+  1183. >     return -r;
+  1184.     }
+  1185.   
+
+/mnt/d/source/libuv/src/unix/core.c:1186: error: UNINITIALIZED_VALUE
+  The value read from result was never initialized.
+  1184.     }
+  1185.   
+  1186. >   if (result == NULL) {
+  1187.       uv__free(buf);
+  1188.       return UV_ENOENT;
+
+/mnt/d/source/libuv/test/test-fs-event.c:1163: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 1162 could be null and is dereferenced by call to `uv_fs_event_init()` at line 1163, column 7.
+  1161.   
+  1162.     loop = uv_default_loop();
+  1163. >   r = uv_fs_event_init(loop, &fs_event);
+  1164.     ASSERT(r == 0);
+  1165.     r = uv_fs_event_start(&fs_event, fs_event_cb_file, "<:;", 0);
+
+/mnt/d/source/libuv/src/unix/udp.c:1259: error: UNINITIALIZED_VALUE
+  The value read from addr_st.ss_family was never initialized.
+  1257.     }
+  1258.   
+  1259. >   if (addr_st.ss_family == AF_INET) {
+  1260.       if (setsockopt(handle->io_watcher.fd,
+  1261.                      IPPROTO_IP,
+
+/mnt/d/source/libuv/src/unix/udp.c:1267: error: UNINITIALIZED_VALUE
+  The value read from addr_st.ss_family was never initialized.
+  1265.         return UV__ERR(errno);
+  1266.       }
+  1267. >   } else if (addr_st.ss_family == AF_INET6) {
+  1268.       if (setsockopt(handle->io_watcher.fd,
+  1269.                      IPPROTO_IPV6,
+
+/mnt/d/source/libuv/src/unix/fs.c:1583: error: UNINITIALIZED_VALUE
+  The value read from r was never initialized.
+  1581.       }
+  1582.   #undef X
+  1583. >   } while (r == -1 && errno == EINTR && retry_on_eintr);
+  1584.   
+  1585.     if (r == -1)
+
+/mnt/d/source/libuv/src/unix/fs.c:1585: error: UNINITIALIZED_VALUE
+  The value read from r was never initialized.
+  1583.     } while (r == -1 && errno == EINTR && retry_on_eintr);
+  1584.   
+  1585. >   if (r == -1)
+  1586.       req->result = UV__ERR(errno);
+  1587.     else
+
+/mnt/d/source/libuv/src/unix/fs.c:1588: error: UNINITIALIZED_VALUE
+  The value read from r was never initialized.
+  1586.       req->result = UV__ERR(errno);
+  1587.     else
+  1588. >     req->result = r;
+  1589.   
+  1590.     if (r == 0 && (req->fs_type == UV_FS_STAT ||
+
+/mnt/d/source/libuv/src/unix/fs.c:1590: error: UNINITIALIZED_VALUE
+  The value read from r was never initialized.
+  1588.       req->result = r;
+  1589.   
+  1590. >   if (r == 0 && (req->fs_type == UV_FS_STAT ||
+  1591.                    req->fs_type == UV_FS_FSTAT ||
+  1592.                    req->fs_type == UV_FS_LSTAT)) {
+
+/mnt/d/source/libuv/test/test-fs.c:1582: error: NULL_DEREFERENCE
+  pointer `null` is dereferenced by call to `uv_fs_write()` at line 1582, column 7.
+  1580.   
+  1581.     iov = uv_buf_init(test_buf, sizeof(test_buf));
+  1582. >   r = uv_fs_write(NULL, &req, file, &iov, 1, -1, NULL);
+  1583.     ASSERT(r == sizeof(test_buf));
+  1584.     ASSERT(req.result == sizeof(test_buf));
+
+/mnt/d/source/libuv/test/test-fs.c:1684: error: NULL_DEREFERENCE
+  pointer `null` is dereferenced by call to `uv_fs_write()` at line 1684, column 7.
+  1682.   
+  1683.     iov = uv_buf_init(test_buf, sizeof(test_buf));
+  1684. >   r = uv_fs_write(NULL, &req, file, &iov, 1, -1, NULL);
+  1685.     ASSERT(r == sizeof(test_buf));
+  1686.     ASSERT(req.result == sizeof(test_buf));
+
+/mnt/d/source/libuv/test/test-fs.c:1798: error: NULL_DEREFERENCE
+  pointer `null` is dereferenced by call to `uv_fs_chown()` at line 1798, column 7.
+  1796.   
+  1797.     /* sync chown */
+  1798. >   r = uv_fs_chown(NULL, &req, "test_file", -1, -1, NULL);
+  1799.     ASSERT(r == 0);
+  1800.     ASSERT(req.result == 0);
+
+/mnt/d/source/libuv/test/test-fs.c:1893: error: NULL_DEREFERENCE
+  pointer `null` is dereferenced by call to `uv_fs_write()` at line 1893, column 7.
+  1891.   
+  1892.     iov = uv_buf_init(test_buf, sizeof(test_buf));
+  1893. >   r = uv_fs_write(NULL, &req, file, &iov, 1, -1, NULL);
+  1894.     ASSERT(r == sizeof(test_buf));
+  1895.     ASSERT(req.result == sizeof(test_buf));
+
+/mnt/d/source/libuv/test/test-fs.c:2225: error: DEAD_STORE
+  The value written to &test_dir_abs_size (type unsigned long) is never used.
+  2223.     uv_cwd(test_dir_abs_buf, &test_dir_abs_size);
+  2224.     strcat(test_dir_abs_buf, "/test_dir");
+  2225. >   test_dir_abs_size += strlen("/test_dir");
+  2226.     test_dir = "test_dir";
+  2227.   #endif
+
+/mnt/d/source/libuv/test/test-fs.c:2857: error: NULL_DEREFERENCE
+  pointer `null` is dereferenced by call to `uv_fs_write()` at line 2857, column 7.
+  2855.   
+  2856.     iov = uv_buf_init(test_buf, sizeof(test_buf));
+  2857. >   r = uv_fs_write(NULL, &write_req, open_req1.result, &iov, 1, -1, NULL);
+  2858.     ASSERT(r >= 0);
+  2859.     ASSERT(write_req.result >= 0);
+
+/mnt/d/source/libuv/test/test-fs.c:2933: error: NULL_DEREFERENCE
+  pointer `null` is dereferenced by call to `uv_fs_write()` at line 2933, column 7.
+  2931.   
+  2932.     iov = uv_buf_init(test_buf, sizeof(test_buf));
+  2933. >   r = uv_fs_write(NULL, &write_req, open_req1.result, &iov, 1, -1, NULL);
+  2934.     ASSERT(r >= 0);
+  2935.     ASSERT(write_req.result >= 0);
+
+/mnt/d/source/libuv/test/test-fs.c:3008: error: NULL_DEREFERENCE
+  pointer `null` is dereferenced by call to `uv_fs_read()` at line 3008, column 3.
+  3006.     bufs[3] = uv_buf_init(scratch + 640, 128);
+  3007.   
+  3008. >   ASSERT(446 == uv_fs_read(NULL,
+  3009.                              &read_req,
+  3010.                              open_req1.result,
+
+/mnt/d/source/libuv/test/test-fs.c:3062: error: NULL_DEREFERENCE
+  pointer `null` is dereferenced by call to `uv_fs_write()` at line 3062, column 7.
+  3060.   
+  3061.     iov = uv_buf_init(test_buf, sizeof(test_buf));
+  3062. >   r = uv_fs_write(NULL, &write_req, open_req1.result, &iov, 1, -1, NULL);
+  3063.     ASSERT(r >= 0);
+  3064.     ASSERT(write_req.result >= 0);
+
+/mnt/d/source/libuv/test/test-fs.c:3127: error: NULL_DEREFERENCE
+  pointer `null` is dereferenced by call to `uv_fs_write()` at line 3127, column 7.
+  3125.     iovs[0] = uv_buf_init(test_buf, sizeof(test_buf));
+  3126.     iovs[1] = uv_buf_init(test_buf2, sizeof(test_buf2));
+  3127. >   r = uv_fs_write(NULL, &write_req, open_req1.result, iovs, 2, 0, NULL);
+  3128.     ASSERT(r >= 0);
+  3129.     ASSERT(write_req.result >= 0);
+
+/mnt/d/source/libuv/test/test-fs.c:3346: error: NULL_DEREFERENCE
+  pointer `null` is dereferenced by call to `uv_fs_write()` at line 3346, column 7.
+  3344.   
+  3345.     iov = uv_buf_init(filler, filler_len);
+  3346. >   r = uv_fs_write(NULL, &write_req, open_req1.result, &iov, 1, -1, NULL);
+  3347.     ASSERT(r == filler_len);
+  3348.     ASSERT(write_req.result == filler_len);
+
+/mnt/d/source/libuv/test/test-fs.c:3580: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 3578 could be null and is dereferenced by call to `uv_signal_init()` at line 3580, column 3.
+  3578.     loop = uv_default_loop();
+  3579.   
+  3580. >   ASSERT(0 == uv_signal_init(loop, &signal));
+  3581.     ASSERT(0 == uv_signal_start(&signal, sig_func, SIGUSR1));
+  3582.   
+
+/mnt/d/source/libuv/test/test-fs.c:3688: error: NULL_DEREFERENCE
+  pointer `loop` last assigned on line 3684 could be null and is dereferenced by call to `uv_run()` at line 3688, column 3.
+  3686.     r = uv_fs_read(loop, &read_req, 0, NULL, 0, -1, fail_cb);
+  3687.     ASSERT(r == UV_EINVAL);
+  3688. >   uv_run(loop, UV_RUN_DEFAULT);
+  3689.     uv_fs_req_cleanup(&read_req);
+  3690.   
+
+Summary of the reports
+
+     NULL_DEREFERENCE: 55
+  UNINITIALIZED_VALUE: 43
+        RESOURCE_LEAK: 14
+          MEMORY_LEAK: 11
+           DEAD_STORE: 7

@@ -37,7 +37,7 @@ vgcore.*
 Makefile
 Makefile.in
 
-/build/
+/build/CMakeFiles
 
 /test/.libs/
 /test/run-tests
